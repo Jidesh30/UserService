@@ -1,7 +1,9 @@
 package org.example.userservice.controller;
 
+import org.example.userservice.dtos.LoginRequestDto;
 import org.example.userservice.dtos.SignUpRequestDto;
 import org.example.userservice.dtos.UserResponseDto;
+import org.example.userservice.models.Token;
 import org.example.userservice.models.User;
 import org.example.userservice.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,5 +26,10 @@ public class UserController {
                 signUpRequestDto.getEmail(),
                 signUpRequestDto.getPassword());
         return UserResponseDto.fromUser(user);
+    }
+
+    @PostMapping("/login")
+    public Token login(@RequestBody LoginRequestDto loginRequestDto) {
+        return userService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
     }
 }
