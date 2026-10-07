@@ -55,4 +55,13 @@ public class UserService {
          token.setUser(user);
          return token;
     }
+
+    public User validateToken(String tokenValue) {
+        Optional<Token> tokenResult =  tokenRepo.findByValueAndDeletedAndExpiryAtGreaterThan(tokenValue,
+                false, System.currentTimeMillis());
+        if (tokenResult.isEmpty()) {
+            return null;
+        }
+        return tokenResult.get().getUser();
+    }
 }

@@ -6,10 +6,7 @@ import org.example.userservice.dtos.UserResponseDto;
 import org.example.userservice.models.Token;
 import org.example.userservice.models.User;
 import org.example.userservice.services.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -32,4 +29,11 @@ public class UserController {
     public Token login(@RequestBody LoginRequestDto loginRequestDto) {
         return userService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
     }
+
+    @GetMapping("/validate/{tokenValue}")
+    public UserResponseDto validateToken(@PathVariable String tokenValue) {
+        User user = userService.validateToken(tokenValue);
+        return UserResponseDto.fromUser(user);
+    }
+
 }
