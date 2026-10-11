@@ -27,12 +27,16 @@ public class UserController {
 
     @PostMapping("/login")
     public Token login(@RequestBody LoginRequestDto loginRequestDto) {
-        return userService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
+        return userService.login(loginRequestDto.getEmail(),
+                loginRequestDto.getPassword());
     }
 
     @GetMapping("/validate/{tokenValue}")
     public UserResponseDto validateToken(@PathVariable String tokenValue) {
         User user = userService.validateToken(tokenValue);
+        if(user == null){
+            return null;
+        }
         return UserResponseDto.fromUser(user);
     }
 
